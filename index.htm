@@ -1,0 +1,211 @@
+<!DOCTYPE HTML>
+<!--
+
+	HANGMAN
+	
+-->
+<html>
+	<head>
+		<title>Hangman</title>
+        
+        <style>
+			body {text-align:center; background-color:rgb(186, 200, 237);}
+			div {font:36pt calibri normal;}
+			
+			h1 {font:72pt calibri bold; margin-top:0px;}
+		
+			button {width:35px; padding:5px; border:thick outset grey; background-color:lightgrey; text-align:center; vertical-align:middle; cursor:default; font:14pt calibri normal}
+			
+			span.halfcol {display:inline-block; width:40%; padding:0px 15px; vertical-align:middle;}
+		</style>
+        <script type = "text/javascript">
+			puzzle = "";
+			puzzle1 = "Heresy grows from idleness";
+			puzzle2 = "Dark Souls II is game of the year";
+			puzzle3 = "Ivan the Terrible";
+			puzzle4 = "Dunderhead is a card game";
+			playerStatus = 1;
+			playerString = "";
+			HANGED = 7;
+			PLAYING = 0;
+			WON = 1;
+			LOST = 2;
+			gamestate = PLAYING;
+			
+			function selectPuzzle()
+			{
+				selpuzzle = parseInt(Math.random() * 4) + 1;
+				if (selpuzzle == 1)
+				{
+					puzzle = puzzle1;
+				}
+				if (selpuzzle == 2)
+				{
+					puzzle = puzzle2;
+				}
+				if (selpuzzle == 3)
+				{
+					puzzle = puzzle3;
+				}
+				if (selpuzzle == 4)
+				{
+					puzzle = puzzle4;
+				}
+				buildPlayerString();
+			}
+			function buildPlayerString()
+			{
+				for (i = 0 ; i < puzzle.length ; i++)
+				{
+					if (puzzle.charAt(i) == " ")
+					{
+						playerString+= " ";
+					}
+					else
+					{
+						playerString+= "-";
+					}
+				}
+				showMyDashes();
+			}
+			function showMyDashes()
+			{
+				playerOutput.innerHTML = playerString;
+				gallows.src = "images/gallows" + playerStatus + ".png";
+				if(gamestate == WON || gamestate == LOST)
+				{
+					letterButtons.innerHTML.hidden = true;
+				}
+			}
+			function makeTry(buttonID,letter)
+			{
+				btn = document.getElementById(buttonID);
+				btn.disabled = true;
+				if (puzzle.toUpperCase().indexOf(letter) >= 0)
+				{
+					fillPlayerString(letter);
+				}
+				else
+				{
+					playerStatus++;
+				}
+				checkGameState();
+				showMyDashes();
+			}
+			function fillPlayerString(letter)
+			{
+				tmp = "";
+				for (i = 0 ; i < puzzle.length ; i++)
+				{
+					if(puzzle.toUpperCase().charAt(i) == letter)
+					{
+						tmp += puzzle.charAt(i);
+					}
+					else
+					{
+						tmp += playerString.charAt(i);
+					}
+				}
+				playerString = tmp;
+			}
+			function guessPuzzle()
+			{
+				attempt = prompt("Guess the entire puzzle");
+				if (attempt.toUpperCase() == puzzle.toUpperCase())
+				{
+					playerString = puzzle;
+				}
+				else
+				{
+					playerStatus++;
+				}
+				checkGameState();
+				showMyDashes();
+			}
+			function resetGame()
+			{
+				gameState = PLAYING;
+				playerStatus = 1;
+				letterButtons.style.display = "block";
+				playerString = "";
+
+				btnList = 	letterButtons.getElementsByTagName("button");
+				for (var i = 0; i < btnList .length; i++)
+					 btnList [i].disabled = false;
+			
+				selectPuzzle();
+				buildPlayerString();
+				drawGame();
+			}
+
+			function checkGameState()
+			{
+				if(playerStatus == HANGED)
+				{
+					gamestate = LOST;
+				}
+				else
+				{
+					if(playerString == puzzle)
+					{
+						gamestate = WON;
+					}
+					else
+					{
+						gamestate = PLAYING;
+					}
+				}
+			}
+        </script>
+        
+	</head>
+		
+	<body onload = "selectPuzzle();">
+		<h1>Hangman</h1>
+		
+		<span class = "halfcol">
+			<button style = "width:75px;" onclick = "resetGame()">Reset Game</button>
+			<div id = "div_letterbuttons">
+				<button id = "buttA" ondblclick = "makeTry('buttA','A');">A</button>
+				<button id = "buttB" ondblclick = "makeTry('buttB','B');">B</button>
+				<button id = "buttC" ondblclick = "makeTry('buttC','C');">C</button>
+				<button id = "buttD" ondblclick = "makeTry('buttD','D');">D</button>
+				<button id = "buttE" ondblclick = "makeTry('buttE','E');">E</button>
+				<button id = "buttF" ondblclick = "makeTry('buttF','F');">F</button>
+				<button id = "buttG" ondblclick = "makeTry('buttG','G');">G</button>
+				<button id = "buttH" ondblclick = "makeTry('buttH','H');">H</button>
+				<button id = "buttI" ondblclick = "makeTry('buttI','I');">I</button>
+				<button id = "buttJ" ondblclick = "makeTry('buttJ','J');">J</button>
+				<button id = "buttK" ondblclick = "makeTry('buttK','K');">K</button>
+				<button id = "buttL" ondblclick = "makeTry('buttL','L');">L</button>
+				<button id = "buttM" ondblclick = "makeTry('buttM','M');">M</button>
+				<button id = "buttN" ondblclick = "makeTry('buttN','N');">N</button>
+				<button id = "buttO" ondblclick = "makeTry('buttO','O');">O</button>
+				<button id = "buttP" ondblclick = "makeTry('buttP','P');">P</button>
+				<button id = "buttQ" ondblclick = "makeTry('buttQ','Q');">Q</button>
+				<button id = "buttR" ondblclick = "makeTry('buttR','R');">R</button>
+				<button id = "buttS" ondblclick = "makeTry('buttS','S');">S</button>
+				<button id = "buttT" ondblclick = "makeTry('buttT','T');">T</button>
+				<button id = "buttU" ondblclick = "makeTry('buttU','U');">U</button>
+				<button id = "buttV" ondblclick = "makeTry('buttV','V');">V</button>
+				<button id = "buttW" ondblclick = "makeTry('buttW','W');">W</button>
+				<button id = "buttX" ondblclick = "makeTry('buttX','X');">X</button>
+				<button id = "buttY" ondblclick = "makeTry('buttY','Y');">Y</button>
+				<button id = "buttZ" ondblclick = "makeTry('buttZ','Z');">Z</button>
+			</div>
+			<button style = "width:75px ;" ondblclick = "guessPuzzle();">Solve Puzzle</button>
+		</span>
+                
+  		<span class = "halfcol">
+			<img id = "img_gallows" src = "images/gallows1.png" /><br /><br />
+			
+			<div id = "div_playeroutput"></div><br />
+		</span>
+        
+		<script type = "text/javascript">
+			gallows = document.getElementById("img_gallows");
+			playerOutput = document.getElementById("div_playeroutput");
+			letterButtons = document.getElementById("div_letterbuttons");
+		</script>
+	</body>
+</html>
